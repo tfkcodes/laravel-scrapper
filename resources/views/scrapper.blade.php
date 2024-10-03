@@ -4,44 +4,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrapping</title>
+    <title>Scraping Data</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"
+        rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #eef2f7;
             font-family: 'Arial', sans-serif;
         }
 
         .container {
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-top: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 40px;
         }
 
         h2 {
-            color: #333;
+            color: #444;
+            font-weight: bold;
+            text-align: center;
         }
 
         table {
-            margin-top: 20px;
+            margin-top: 30px;
+            border-collapse: collapse;
+            width: 100%;
         }
 
         th {
             background-color: #007bff;
             color: white;
+            text-transform: uppercase;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th i {
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        th,
+        td {
+            vertical-align: middle;
+            padding: 12px;
+        }
+
+        td {
+            background-color: #f8f9fa;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f3f5;
         }
 
         td img {
             width: 80px;
             height: auto;
             border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        td img:hover {
+            transform: scale(1.1);
         }
 
         .btn {
             transition: background-color 0.3s, color 0.3s;
+            border-radius: 5px;
+            padding: 6px 12px;
         }
 
         .btn-primary {
@@ -53,13 +89,17 @@
             background-color: #0056b3;
         }
 
-        .btn-info {
-            background-color: #17a2b8;
+        .btn-secondary {
+            background-color: #6c757d;
             border: none;
         }
 
-        .btn-info:hover {
-            background-color: #138496;
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn i {
+            margin-right: 5px;
         }
 
         /* Responsive adjustments */
@@ -98,12 +138,12 @@
                 <table id="example" class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Summary</th>
-                            <th>Time</th>
-                            <th>Image</th>
-                            <th>Actions</th>
+                            <th><i class="bi bi-hash"></i>ID</th>
+                            <th><i class="bi bi-card-text"></i>Title</th>
+                            <th><i class="bi bi-justify-left"></i>Summary</th>
+                            <th><i class="bi bi-clock"></i>Time</th>
+                            <th><i class="bi bi-image"></i>Image</th>
+                            <th><i class="bi bi-gear"></i>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -118,8 +158,14 @@
                                         <img src="{{ $millard['image'][$index] ?? '' }}" alt="Sample Image">
                                     </td>
                                     <td>
-                                        <button class="btn btn-primary btn-sm">Edit</button>
-                                        <button class="btn btn-info btn-sm">View</button>
+                                        <button class="btn btn-primary btn-sm"
+                                            onclick="copyLink('{{ $millard['link'][$index] }}')">
+                                            <i class="bi bi-clipboard"></i>
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm"
+                                            onclick="viewItem('{{ $millard['link'][$index] }}')">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -133,6 +179,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function copyLink(link) {
+            navigator.clipboard.writeText(link);
+            alert('Link copied to clipboard: ' + link);
+        }
+
+        function viewItem(link) {
+            window.open(link, '_blank');
+        }
+    </script>
 
 </body>
 

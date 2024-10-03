@@ -12,7 +12,9 @@ class ScrapperController extends Controller
 
     public function index()
     {
-        $millard = $this->millardNews();
+        // $millard = $this->millardNews();
+        // $mwananchi = $this->mwananchiNews();
+        $millard = $this->theCitizenNews();
 
         return view("scrapper", compact("millard"));
     }
@@ -38,6 +40,45 @@ class ScrapperController extends Controller
         return $data;
     }
 
-    public function gazetiLaDuniaNews() {}
+    public function theCitizenNews()
+    {
+        $scrapper = new ScrapHelper();
+
+
+        $selectors = [
+            "title" => "h3.teaser-image-large_title",
+            "summary" => "p.teaser-image-large_paragraph",
+            "time" => "span.date",
+            "link" => "a.teaser-image-large",
+            "image" => "figure.lazy-img-container img",
+            "topic" => "span.article-topic.article-metadata_topic"
+        ];
+
+        $data = $scrapper->website_scrapper("https://www.thecitizen.co.tz/tanzania'", $selectors);
+
+        Log::info('Scraped Data:', $data);
+
+
+        return $data;
+    }
+    public function mwananchiNews()
+    {
+        $scrapper = new ScrapHelper();
+
+        $selectors = [
+            "title" => "h3.teaser-image-large_title",
+            "summary" => "p.teaser-image-large_paragraph",
+            "time" => "span.date",
+            "link" => "a.teaser-image-large",
+            "image" => "figure.lazy-img-container img.blk-img"
+        ];
+
+        $data = $scrapper->website_scrapper("https://mwananchi.co.tz/mw/habari/kitaifa'", $selectors);
+
+        Log::info('Scraped Data:', $data);
+
+
+        return $data;
+    }
     public function jamiiForums() {}
 }
